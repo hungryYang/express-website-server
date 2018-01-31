@@ -1,0 +1,28 @@
+{
+  "name": "express-website",
+  "version": "1.0.0",
+  "description": "express",
+  "main": "meadowlark.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungryYang/express-website-server.git"
+  },
+  "keywords": [
+    "express",
+    "server",
+    "node.js"
+  ],
+  "author": "hungryyang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hungryYang/express-website-server/issues"
+  },
+  "homepage": "https://github.com/hungryYang/express-website-server#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express3-handlebars": "^0.5.2"
+  }
+}
