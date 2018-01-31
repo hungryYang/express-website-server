@@ -9,6 +9,14 @@ const handlebars = require('express3-handlebars').create({defaultLayout:'main'})
 app.engine('handlebars',handlebars.engine)
 app.set('view engine','handlebars')
 
+/*
+*测试页面
+*/
+
+app.use((req,res,next)=>{
+  res.locals.showTests = app.get('env') !== 'production' && req.query.test ==='1'
+  next()
+})
 
 /*
 * Router
@@ -19,9 +27,23 @@ app.get('/',(req,res)=>{
 
 app.get('/about',(req,res)=>{
   var randomFortune = fortune.getFortunes()
-  res.render('about',{fortune:randomFortune})
+  res.render('about',{
+    fortune:randomFortune,
+    pageTestScript:'/qa/tests-about.js'
+  })
 })
 
+app.get('/tours/hood-river',(req,res)=>{
+  res.render('tours/hood-river')
+})
+
+app.get('/tours/request-group-rate',(req,res)=>{
+  res.render('tours/request-group-rate')
+})
+
+app.get('/tours/oregon-coast',(req,res)=>{
+  res.render('tours/oregon-coast')
+})
 /*
 *   指定程序端口
 */
