@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const fortune = require('./lib/fortune');
-const weather = require('./lib/getWeather')
-const formidable = require('formidable')
+const weather = require('./lib/getWeather');
+const formidable = require('formidable');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session')
 const handlebars = require('express-handlebars').create({
   defaultLayout:'main',
   helpers: {
@@ -14,6 +16,13 @@ const handlebars = require('express-handlebars').create({
     }
   }
 });
+const credentials = require('./credentials/index');
+/*
+* 设置cookie
+*/
+app.use(cookieParser(credentials.cookieSecret));
+app.use(expressSession())
+
 /*
 * 使用模板引擎
 */
@@ -39,12 +48,34 @@ app.use((req,res,next)=>{
   res.locals.weather = weather.getWeather()
   next();
 })
+/*
+*  会话、即显消息
+*/
+// app.use((req,res,next)=>{
+//   //如果有即显消息，把它传到上下文，然后清除
+//   res.locals.flash = req.session.flash;
+//   delete req.session.flash;
+//   next()
+// })
 
+
+
+// app.get('/newsletter',(req,res)=>{
+//   let name = req.body.name||'',
+//     email = req.body.emial||'';
+//   //输入验证
+//
+//   res.render('newsletter',{csrf:'CSRF token goes here'});
+// });
 /*
 * Router
 */
 app.get('/', (req, res) => {
   res.render('home',{aa:[1,2,3,4,5]});
+});
+
+app.get('/newsletter',(req,res)=>{
+  res.render('newsletter')
 });
 
 app.get('/about', (req, res) => {
@@ -78,10 +109,6 @@ app.get('/data/nursery-rhyme',(req,res)=>{
     adjective:'bushy',
     noun:'heck',
   });
-});
-
-app.get('/newsletter',(req,res)=>{
-  res.render('newsletter',{csrf:'CSRF token goes here'});
 });
 
 /*
